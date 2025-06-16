@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 
 public class ListingActivity : MindfulnessActivity
 {
@@ -25,7 +24,6 @@ public class ListingActivity : MindfulnessActivity
         int duration = GetDuration();
         List<string> items = new List<string>();
 
-        
         string prompt = _prompts[rand.Next(_prompts.Count)];
         Console.WriteLine($"\nList as many responses as you can to the following prompt:");
         Console.WriteLine($"--- {prompt} ---");
@@ -33,7 +31,6 @@ public class ListingActivity : MindfulnessActivity
         ShowCountdown(5);
         Console.WriteLine();
 
-        
         DateTime endTime = DateTime.Now.AddSeconds(duration);
         while (DateTime.Now < endTime)
         {
@@ -45,7 +42,6 @@ public class ListingActivity : MindfulnessActivity
             }
         }
 
-        
         Console.WriteLine($"\nYou listed {items.Count} items!");
     }
 }

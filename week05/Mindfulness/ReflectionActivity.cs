@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 
 public class ReflectionActivity : MindfulnessActivity
 {
@@ -25,34 +24,63 @@ public class ReflectionActivity : MindfulnessActivity
         "How can you keep this experience in mind in the future?"
     };
 
+    private Queue<string> _availablePrompts = new Queue<string>();
+    private Queue<string> _availableQuestions = new Queue<string>();
+
     public ReflectionActivity() : base(
         "Reflection Activity",
-        "This activity will help you reflect on times in your life when you have shown strength and resilience. " +
-        "This will help you recognize the power you have and how you can use it in other aspects of your life.")
+        "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.")
     {
     }
 
     protected override void RunActivity()
     {
-        Random rand = new Random();
         int duration = GetDuration();
         int elapsed = 0;
 
-        // Escolhe e exibe o prompt inicial
-        string prompt = _prompts[rand.Next(_prompts.Count)];
+        if (_availablePrompts.Count == 0)
+            ShufflePrompts();
+
+        string prompt = _availablePrompts.Dequeue();
         Console.WriteLine($"\nConsider the following prompt:\n--- {prompt} ---");
         Console.WriteLine("\nWhen you have something in mind, press Enter to continue.");
         Console.ReadLine();
         Console.WriteLine("Now ponder on each of the following questions:");
         ShowSpinner(3);
 
-        // Perguntas aleatórias até atingir a duração
         while (elapsed < duration)
         {
-            string question = _questions[rand.Next(_questions.Count)];
+            if (_availableQuestions.Count == 0)
+                ShuffleQuestions();
+
+            string question = _availableQuestions.Dequeue();
             Console.WriteLine($"\n> {question}");
             ShowSpinner(5);
             elapsed += 5;
         }
+    }
+
+    private void ShufflePrompts()
+    {
+        var shuffled = new List<string>(_prompts);
+        var rand = new Random();
+        for (int i = shuffled.Count - 1; i > 0; i--)
+        {
+            int j = rand.Next(i + 1);
+            (shuffled[i], shuffled[j]) = (shuffled[j], shuffled[i]);
+        }
+        _availablePrompts = new Queue<string>(shuffled);
+    }
+
+    private void ShuffleQuestions()
+    {
+        var shuffled = new List<string>(_questions);
+        var rand = new Random();
+        for (int i = shuffled.Count - 1; i > 0; i--)
+        {
+            int j = rand.Next(i + 1);
+            (shuffled[i], shuffled[j]) = (shuffled[j], shuffled[i]);
+        }
+        _availableQuestions = new Queue<string>(shuffled);
     }
 }

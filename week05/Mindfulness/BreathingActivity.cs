@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 
 public class BreathingActivity : MindfulnessActivity
 {
@@ -16,11 +15,11 @@ public class BreathingActivity : MindfulnessActivity
 
         while (elapsed < duration)
         {
-            Console.Write("Breathe in...");
+            Console.Write("Breathe in... ");
             ShowCountdown(4);
             Console.WriteLine();
 
-            Console.Write("Now breathe out...");
+            Console.Write("Now breathe out... ");
             ShowCountdown(4);
             Console.WriteLine();
 
@@ -28,3 +27,4 @@ public class BreathingActivity : MindfulnessActivity
         }
     }
 }
+

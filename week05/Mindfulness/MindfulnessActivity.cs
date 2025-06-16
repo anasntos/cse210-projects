@@ -19,7 +19,11 @@ public abstract class MindfulnessActivity
         Console.WriteLine($"--- {_name} ---\n");
         Console.WriteLine($"{_description}\n");
         Console.Write("Enter the duration in seconds: ");
-        _duration = int.Parse(Console.ReadLine());
+
+        while (!int.TryParse(Console.ReadLine(), out _duration) || _duration <= 0)
+        {
+            Console.Write("Invalid input. Please enter a positive number for the duration in seconds: ");
+        }
 
         Console.WriteLine("\nPrepare to begin...");
         ShowSpinner(3);
